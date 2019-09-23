@@ -1,7 +1,10 @@
 import 'dart:async';
+import 'dart:convert';
 
+import 'package:flash_scooters/widgets/flash_scooter_map_widget.dart';
+import 'package:flash_scooters/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:http/http.dart' as http;
 
 void main() => runApp(FlashScootersApp());
 
@@ -10,33 +13,23 @@ class FlashScootersApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flash Scooters',
-      home: FlashScootersMapWidget(),
+      theme: ThemeData(
+        fontFamily: 'Raleway',
+      ),
+      home: FlashScooterMainPage(),
     );
   }
 }
 
-class FlashScootersMapWidget extends StatefulWidget {
-  @override
-  State<FlashScootersMapWidget> createState() => FlashScootersMapWidgetState();
-}
-
-class FlashScootersMapWidgetState extends State<FlashScootersMapWidget> {
-  Completer<GoogleMapController> _controller = Completer();
-
-  static final CameraPosition _circOfficePosition = CameraPosition(
-    target: LatLng(52.507978, 13.3892189),
-    zoom: 14.4746,
-  );
-
+class FlashScooterMainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new Scaffold(
-      body: GoogleMap(
-        mapType: MapType.hybrid,
-        initialCameraPosition: _circOfficePosition,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
+    return Scaffold(
+      body: Stack(
+        children: <Widget>[
+          FlashScootersMapWidget(),
+          LoadingWidget()
+        ],
       ),
     );
   }
