@@ -27,8 +27,8 @@ disappears by leaving the screen from the bottom.
 - Multiple unit tests for the HTTP call is added. 
 
 ### State Management
-- Since the specs of the application is straightforward, I wanted to use the Provider from Remi to take care of the selected marker
-information to be sent to listening widgets. I used ChangeNotifierProvider and Consumer at the places that we need the data. With the HTTP
+- Since the specs of the application is straightforward, I wanted to use the Provider to take care of the selected marker
+operation and use it to send the information to the listening widgets. I used ChangeNotifierProvider and Consumer from Provider at the places that we need the data. With the HTTP
 call I decided to use FutureBuilder because for the sake of simplicity and keeping things aligned, it does a great job with our scenario. 
 
 ## What can be done in the future?
