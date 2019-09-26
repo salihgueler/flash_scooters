@@ -1,6 +1,11 @@
-// https://github.com/flutter/flutter/issues/36653#issuecomment-525288053
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+
+///
+/// Method to return a [LatLngBounds] object for limiting the camera are. There is no SDK support for it
+/// at the moment. The solution below is retrieved from the comment at the GitHub issue.
+/// https://github.com/flutter/flutter/issues/36653#issuecomment-525288053
+///
 LatLngBounds boundsFromLatLngList(List<LatLng> list) {
   assert(list.isNotEmpty);
   double x0, x1, y0, y1;
@@ -16,6 +21,27 @@ LatLngBounds boundsFromLatLngList(List<LatLng> list) {
     }
   }
   return LatLngBounds(northeast: LatLng(x1, y1), southwest: LatLng(x0, y0));
+}
+
+///
+/// Method to do the camera movement for the [GoogleMap]
+///
+/// Right now there is a problem with the movement of the camera. It needs to be passed with a delay.
+/// More information can be found at: https://github.com/flutter/flutter/issues/27936
+///
+void moveCameraToLatLngBound(
+    GoogleMapController controller,
+    List<LatLng> latLngList,
+    ) {
+  const double ZOOM_LEVEL = 16;
+  Future.delayed(Duration(milliseconds: 100), () {
+    controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        boundsFromLatLngList(latLngList),
+        ZOOM_LEVEL,
+      ),
+    );
+  });
 }
 
 BitmapDescriptor getIconForSelectedMarker(

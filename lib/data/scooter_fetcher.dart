@@ -3,10 +3,16 @@ import 'dart:convert';
 import 'package:flash_scooters/model/scooter.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<Scooter>> fetchScooters() async {
-  http.Response response = await http.get(
-      'https://my-json-server.typicode.com/FlashScooters/Challenge/vehicles');
+const String SCOOTER_SOURCE_URL = 'https://my-json-server.typicode.com/FlashScooters/Challenge/vehicles';
 
+///
+/// Fetches the Scooters from the [SCOOTER_SOURCE_URL] provided.
+/// It requires a [http.Client] to make the call
+///
+/// For the 404, 500 and other errors it will throw a generic exception
+///
+Future<List<Scooter>> fetchScooters(http.Client client) async {
+  final http.Response response = await client.get(SCOOTER_SOURCE_URL);
   if (response.statusCode == 200) {
     return (jsonDecode(response.body) as List)
         .map((e) => Scooter.fromJson(e))

@@ -2,7 +2,7 @@ import 'package:flash_scooters/data/scooter_fetcher.dart';
 import 'package:flash_scooters/widgets/flash_scooter_map_widget.dart';
 import 'package:flash_scooters/widgets/loading_widget.dart';
 import 'package:flutter/material.dart';
-
+import 'package:http/http.dart' as http;
 void main() => runApp(FlashScootersApp());
 
 class FlashScootersApp extends StatelessWidget {
@@ -15,7 +15,7 @@ class FlashScootersApp extends StatelessWidget {
       ),
       home: Scaffold(
         body: FutureBuilder(
-          future: fetchScooters(),
+          future: fetchScooters(http.Client()),
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (snapshot.hasData) {
               return FlashScootersMapWidget(

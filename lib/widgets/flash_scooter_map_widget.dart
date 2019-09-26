@@ -7,6 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 
+///
+/// A widget that shows the [Scooter] positions on the map.
+///
+/// In each marker click it animates an animated card view to show the information about the current Scooter.
+///
 class FlashScootersMapWidget extends StatefulWidget {
   final List<Scooter> scooters;
 
@@ -86,15 +91,7 @@ class FlashScootersMapWidgetState extends State<FlashScootersMapWidget>
       initialCameraPosition: _circOfficePosition,
       myLocationButtonEnabled: false,
       onMapCreated: (GoogleMapController controller) {
-        //https://github.com/flutter/flutter/issues/27936
-        Future.delayed(Duration(milliseconds: 100), () {
-          controller.animateCamera(
-            CameraUpdate.newLatLngBounds(
-              boundsFromLatLngList(latLngList),
-              16,
-            ),
-          );
-        });
+        moveCameraToLatLngBound(controller, latLngList);
         _controller.complete(controller);
       },
       markers: _createMarkersFromScooters(widget.scooters),
@@ -108,29 +105,35 @@ class FlashScootersMapWidgetState extends State<FlashScootersMapWidget>
       return scooters.map((scooter) {
         return Marker(
             markerId: MarkerId(scooter.id.toString()),
-            icon: getIconForSelectedMarker(_currentMarkerScooter.equalsTo(scooter)),
-            position: LatLng(scooter.latitude, scooter.longitude),
+            icon: getIconForSelectedMarker(
+              _currentMarkerScooter.equalsTo(scooter),
+            ),
+            position: LatLng(
+              scooter.latitude,
+              scooter.longitude,
+            ),
             onTap: () {
               if (_currentMarkerScooter.equalsTo(scooter)) {
-                if (_animationController.isCompleted) {
-                  _animationController
-                    ..addStatusListener((status) {
-                      if (status == AnimationStatus.dismissed) {
-                        _currentMarkerScooter.updateSelectedScooter(null);
-                      }
-                    });
-                  _animationController.reverse();
-                } else {
-                  _animationController.forward();
-                }
+                _hideInformationWidget();
               } else {
-                _currentMarkerScooter.updateSelectedScooter(scooter);
-                if (_animationController.isDismissed) {
-                  _animationController.forward();
-                }
+                _showInformationWidget(scooter);
               }
             });
       }).toSet();
     }
+  }
+
+  void _hideInformationWidget() {
+    _animationController.reverse();
+    _animationController.addStatusListener((status) {
+      if (status == AnimationStatus.dismissed) {
+        _currentMarkerScooter.updateSelectedScooter(null);
+      }
+    });
+  }
+
+  void _showInformationWidget(Scooter scooter) {
+    _animationController.forward();
+    _currentMarkerScooter.updateSelectedScooter(scooter);
   }
 }

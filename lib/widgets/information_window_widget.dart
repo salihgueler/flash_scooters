@@ -3,6 +3,10 @@ import 'package:flash_scooters/styles.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
+
+///
+/// A Card Widget that shows some information about the current [Scooter]
+///
 class InformationWindowWidget extends StatelessWidget {
   final double iconSize = 16;
   final double informationWindowHeight = 200;
@@ -45,7 +49,8 @@ class InformationWindowWidget extends StatelessWidget {
   }
 
   IconData _getIconDataForBatteryLevel(int batteryLevel) {
-    if (batteryLevel < 20) {
+    const MINIMUM_BATTERY_LEVEL = 20;
+    if (batteryLevel < MINIMUM_BATTERY_LEVEL) {
       return Icons.battery_alert;
     } else {
       return Icons.battery_std;
@@ -60,7 +65,9 @@ class InformationWindowWidget extends StatelessWidget {
   }
 
   Padding _createScooterBatteryLevelWidget(
-      String scooterBatteryLevelText, int batteryLevel) {
+    String scooterBatteryLevelText,
+    int batteryLevel,
+  ) {
     return Padding(
       padding: infoWindowEdgeInsetsTopBottom,
       child: Row(

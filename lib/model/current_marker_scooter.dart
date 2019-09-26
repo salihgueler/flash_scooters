@@ -1,6 +1,10 @@
 import 'package:flash_scooters/model/scooter.dart';
 import 'package:flutter/material.dart';
 
+///
+/// Keeps the information about the current selected [Scooter] and
+/// serves information about it to be shared via Provider.
+///
 class CurrentMarkerScooter extends ChangeNotifier {
   Scooter _selectedScooter;
 
@@ -11,20 +15,17 @@ class CurrentMarkerScooter extends ChangeNotifier {
 
   bool equalsTo(Scooter scooter) => _selectedScooter == scooter;
 
-  String get name => _selectedScooter == null ? '' : _selectedScooter.name;
+  String get name => _selectedScooter?.name ?? '';
 
-  String get description =>
-      _selectedScooter == null ? '' : _selectedScooter.description;
+  String get description => _selectedScooter?.description ?? '';
 
-  String get currency =>
-      _selectedScooter == null ? '' : _selectedScooter.currency;
+  String get currency => _selectedScooter?.currency ?? '';
 
-  int get price => _selectedScooter == null ? -1 : _selectedScooter.price;
+  int get price => _selectedScooter?.price ?? -1;
 
-  int get batteryLevel =>
-      _selectedScooter == null ? -1 : _selectedScooter.batteryLevel;
+  int get batteryLevel => _selectedScooter?.batteryLevel ?? -1;
 
-  int get priceTime => _selectedScooter == null ? -1 : _selectedScooter.priceTime;
+  int get priceTime => _selectedScooter?.priceTime ?? -1;
 
   @override
   bool operator ==(Object other) =>
@@ -35,5 +36,4 @@ class CurrentMarkerScooter extends ChangeNotifier {
 
   @override
   int get hashCode => _selectedScooter.hashCode;
-
 }

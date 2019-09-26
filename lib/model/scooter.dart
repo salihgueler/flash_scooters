@@ -1,3 +1,6 @@
+///
+/// A data class to keep the information for scooter.
+///
 class Scooter {
   final int id;
   final String name;
