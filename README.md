@@ -3,6 +3,8 @@
 It's a simple application to show some scooter positions fetched from backend. In application,
 the user can click on the Scooter markers and learn about the status of it. 
 
+For using it, you are required to have an API key for Google Maps.
+
 ## What has been implemented?
 
 ### Feature
