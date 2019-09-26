@@ -15,8 +15,10 @@ dependencies:
   provider: ^3.1.0
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+#  flutter_test:
+#    sdk: flutter
+  mockito: ^4.1.1
+  test: ^1.8.0
 
 flutter:
 
