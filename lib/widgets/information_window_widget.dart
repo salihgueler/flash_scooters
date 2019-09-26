@@ -110,7 +110,7 @@ class InformationWindowWidget extends StatelessWidget {
       highlightColor: flashScootersDarkBlue,
       splashColor: flashScootersDarkBlue,
       child: Text(
-        'Start playing',
+        'Start riding',
         style: buttonTextStyle,
       ),
     );

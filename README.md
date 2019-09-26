@@ -1,16 +1,39 @@
-# flash_scooters
+# Flash Scooters
 
-A new Flutter project.
+It's a simple application to show some scooter positions fetched from backend. In application,
+the user can click on the Scooter markers and learn about the status of it. 
 
-## Getting Started
+## What has been implemented?
 
-This project is a starting point for a Flutter application.
+### Feature
+- A loading page is implemented for the loading part of the data. It uses Flare for the
+loading animation and a regular Text widget for the text.
+- Google Maps SDK for Flutter is implemented. 
+- Information about the Scooters is retrieved from the provided url.
+- Retrieved Scooter information is:
+    1. Used to create markers on the application with the location retrieved from it
+    2. Used for showing information in the Card with the information details.
+    3. Used for showing all the markers on the initial load.
+- Provider and Consumer is used to pass the data and handle the Marker state. 
+- Information retrieved from the backend had lack of documentation. Therefore I thought about what
+they might mean from my experiences with the other scooter apps. I composed the views with the meanings that most like mean:
+    1. Description and name properties of the scooter are combined and a single text created.
+    2. A percentage sign is added to battery level property and a icon selection logic is added to show different icons when 
+    the battery is in the critical level (which is 20 percent at the moment).
+    3. The price property is divided to 100 to have cents and time property is assumed as seconds.
+- When user clicks on to a single marker, information related to that marker is shown with an animated Card coming from bottom.
+If user clicks on another marker, Card updates itself with the new information. If user clicks on the same marker again then it 
+disappears by leaving the screen from the bottom.
+- Multiple unit tests for the HTTP call is added. 
 
-A few resources to get you started if this is your first Flutter project:
+### State Management
+- Since the specs of the application is straightforward, I wanted to use the Provider from Remi to take care of the selected marker
+information to be sent to listening widgets. I used ChangeNotifierProvider and Consumer at the places that we need the data. With the HTTP
+call I decided to use FutureBuilder because for the sake of simplicity and keeping things aligned, it does a great job with our scenario. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## What can be done in the future?
 
-For help getting started with Flutter, view our
-[online documentation](https://flutter.dev/docs), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- Widget and instrumented tests can be implemented with mocks.
+- Better connectivity status handling and orientation handling can be implemented.
+- With better specs and graphics the visual parts can be improved.
+- Changing specs and improving app will help us to experiment more complex solutions.
